@@ -1,0 +1,7 @@
+intext:"Кемеров ресторан","Купить еду","Рестораны Кемерово"
+site:*.ru,*.su,*.kz
+intitle:"Суши","Роллы","Лагман" 
+inurl:"forum","/shop"
+filetype:pdf,"docx" 
+define:препарат
+after:2020,before:2019
