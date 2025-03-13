@@ -1,5 +1,3 @@
-const { parseArgs } = require('node:util');
-
 const { chromium } = require('playwright');
 const fs = require('fs/promises');
 
@@ -175,13 +173,26 @@ class FileWriter {
 
 async function main() {
   const options = {
-    'logfile': { type: 'string' },
-    'file': { type: 'string' },
+    'file': 'queries.txt',
+    'output': 'output_raw.md',
   };
-  const { values, tokens } = parseArgs({ options, tokens: true });
-  let dorks_path = values.file ?? `queries.txt`;
-  let output_path = values.output ?? `output_raw.md`;
+  
+  let args = process.argv.slice(2);
+  for (let i = 0; i < args.length; i++) {
+    let arg = args[i];
+    if (arg.startsWith('--')) {
+      let [key, value] = arg.split('=');
+      key = key.substring(2); 
+      if (options[key]) {
+        options[key] = value;
+      }
+    }
+  }
+  
 
+  let dorks_path = options.file;
+  let output_path = options.output;
+  
   let dorks_combinations = await getDorks(dorks_path);
   console.log(`[main] parsed dorks_combinations: ${dorks_combinations.map(el=> el)}`);
  
